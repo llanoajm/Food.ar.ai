@@ -21,7 +21,8 @@ class ScanViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
     var imageID = ""
     var user = "admin"
     let defaults = UserDefaults.standard
-    var doneScanning = false
+    
+    var continueScan = true
     // var stopScanning = false
     
     
@@ -205,18 +206,19 @@ extension ScanViewController {
                 
                     
                     print("Top prediction: \(topPredictionName) - score: \(String(describing: topPredictionScore))")
+                if self.continueScan == true{
                     self.prediction_label.text = "Top prediction: \(topPredictionName) - score: \(String(describing: topPredictionScore))"
                     
                     self.update3DText(topPredictionName)
-                    
-                   
+                    self.continueScan = false
+                }
                     
                     
                        // photoArray.append(image)//deprecated*
                         //edits here
                         
                     let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                    let url = documents.appendingPathComponent("image-rand.png")
+                let url = documents.appendingPathComponent("image-rand\(self.scansArray.count).png")
                    
                      
                     
