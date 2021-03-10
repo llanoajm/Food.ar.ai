@@ -1,0 +1,7 @@
+cannoli
+gyoza
+ice_cream
+no_product_detected
+pizza
+steak
+waffles
