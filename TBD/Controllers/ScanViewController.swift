@@ -14,6 +14,11 @@ class ScanViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
 
     @IBOutlet var sceneView: ARSCNView!
     
+    
+
+    
+
+    
     let sphere = SCNSphere(radius: 0.2)
     let node = SCNNode()
     let prediction_label = UILabel()
@@ -89,6 +94,7 @@ class ScanViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
         //stopScanning = false
          
         //stopScanning = false
@@ -135,6 +141,7 @@ class ScanViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
         
         let classificationRequest = VNCoreMLRequest(model: selectedModel,
                                                     completionHandler: classificationCompleteHandler)
+        //let objectDetectionrequest = VNCoreMLRequest(model: sele, completionHandler: )
         classificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop // Crop from centre of images and scale to appropriate size.
         visionRequests = [classificationRequest]
     }
@@ -145,6 +152,9 @@ class ScanViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
             self.updateCoreML()
         }
     }
+    
+    
+    
 
 
 }
@@ -204,6 +214,10 @@ extension ScanViewController {
             
             if (topPredictionScore > 0.95) && (topPredictionName != "no_product_detected"){ //&& self.stopScanning == false
                 
+//                self.performSegue(withIdentifier: "ScanToRate", sender: self)
+                
+                
+                
                     
                     print("Top prediction: \(topPredictionName) - score: \(String(describing: topPredictionScore))")
                 if self.continueScan == true{
@@ -212,6 +226,18 @@ extension ScanViewController {
                     self.update3DText(topPredictionName)
                     self.continueScan = false
                 }
+                
+                let alert = UIAlertController(title: "Do you want to rate \(topPredictionName)?", message: "", preferredStyle: .alert)
+                
+                let action = UIAlertAction(title: "Rate", style: .default) { (action) in
+                    self.performSegue(withIdentifier: "ScanToRate", sender: self)
+//                    self.present(RateViewController(), animated: true, completion: nil)
+                }
+                alert.addAction(action)
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
                     
                     
                        // photoArray.append(image)//deprecated*
